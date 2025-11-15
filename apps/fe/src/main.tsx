@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import RoomPage from 'RoomPage.tsx';
-import HomePage from 'Homepage.tsx';
+import HomePage from 'HomePage.tsx';
 import './index.css';
 import App from './App.tsx';
 const router = createBrowserRouter([
