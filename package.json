@@ -1,0 +1,30 @@
+{
+  "name": "ttcn-2526-quan-ly-luu-tru",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:fe": "npm run dev --workspace=fe",
+    "start:be": "npm run boot --workspace=be",
+    "start:all": "npm-run-all --parallel start:fe start:be"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/4438Th/ttcn-2526-quan-ly-luu-tru.git"
+  },
+  "workspaces": [
+    "apps/*",
+    "libs/*"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/4438Th/ttcn-2526-quan-ly-luu-tru/issues"
+  },
+  "homepage": "https://github.com/4438Th/ttcn-2526-quan-ly-luu-tru#readme",
+  "devDependencies": {
+    "turbo": "^2.6.1"
+  }
+}

@@ -1,0 +1,15 @@
+# 1. Bỏ qua Node.js/FE/Vite
+node_modules/
+dist/
+.vite/
+build/
+# 2. Bỏ qua Java/Spring Boot Chung
+*.class
+*.log
+# 3. Bỏ qua cấu hình môi trường & riêng tư
+.env
+.env.local
+# 4. Bỏ qua IDEs & hệ điều hành
+.vscode/
+.DS_Store
+.idea/

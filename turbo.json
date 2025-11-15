@@ -1,0 +1,17 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "build": {
+      "inputs": ["src/**/*", "package.json", "build.gradle", "pom.xml"],
+      "outputs": ["dist/**", "build/**", "target/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "test": {
+      "outputs": ["coverage/**"],
+      "dependsOn": ["build"]
+    }
+  }
+}

@@ -1,0 +1,6 @@
+version:
+services:
+  # 1. Database Service (MySQL)
+  # 2. Backend Service (Spring Boot)
+volumes:
+hotel_data:
