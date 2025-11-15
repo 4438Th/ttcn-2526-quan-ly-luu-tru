@@ -7,7 +7,12 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:fe": "npm run dev --workspace=fe",
     "start:be": "npm run boot --workspace=be",
-    "start:all": "npm-run-all --parallel start:fe start:be"
+    "start:all": "npm-run-all --parallel start:fe start:be",
+    "prepare": "husky",
+    "check:type": "tsc --build --force --verbose",
+    "check:lint": "eslint . --fix --quiet",
+    "check:prettier": "prettier --write --ignore-unknown \"**/*\"",
+    "check:all": "npm run check:prettier && npm run check:lint && npm run check:type"
   },
   "repository": {
     "type": "git",
@@ -25,6 +30,16 @@
   },
   "homepage": "https://github.com/4438Th/ttcn-2526-quan-ly-luu-tru#readme",
   "devDependencies": {
-    "turbo": "^2.6.1"
+    "@eslint/js": "^9.39.1",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
+    "prettier": "^3.6.2",
+    "turbo": "^2.6.1",
+    "typescript-eslint": "^8.46.4"
   }
 }
