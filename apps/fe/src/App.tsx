@@ -11,7 +11,7 @@ function App() {
           {/* 2. <Outlet />: Nơi các trang con (Login, Rooms) được hiển thị */}
           <Outlet />
         </main>
-        <div>hehehe</div>
+        <div>test never read libs</div>
         {/* 3. Footer (luôn hiển thị) */}
       </div>
     </>
