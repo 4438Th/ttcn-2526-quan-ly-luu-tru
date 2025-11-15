@@ -1,8 +1,6 @@
-import { Themes } from 'defines';
 import './App.css';
 
 function App() {
-  console.log(Themes.LIGHT);
   return (
     <>
       <div>
