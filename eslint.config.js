@@ -10,7 +10,7 @@ import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default [
   {
-    ignores: ['dist/', 'build/', 'target/', 'node_modules/', 'coverage/'],
+    ignores: ['dist/', 'build/', 'target/', 'node_modules/', 'coverage/', 'apps/be/'],
   },
 
   js.configs.recommended,
