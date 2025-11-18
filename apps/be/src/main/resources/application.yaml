@@ -1,3 +1,15 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /quanlyluutru
 spring:
   application:
     name: quanlyluutru
+  data-source:
+    url: "jdbc:mysql://localhost:3306/quanlyluutru"
+    username: "root"
+    password: "4438Th"
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
