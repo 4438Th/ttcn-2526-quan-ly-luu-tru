@@ -14,14 +14,14 @@ export interface NavItem {
 }
 // 2. KHAI BÁO MẢNG GIÁ TRỊ (CONST)
 const navItems: NavItem[] = [
-  { name: 'Phòng', href: '#phong', current: true, icon: House },
+  { name: 'Phòng', href: '', current: true, icon: House },
   { name: 'Lưu trú', href: '#luutru', current: false, icon: CalendarDays },
   { name: 'Hóa đơn', href: '#hoadon', current: false, icon: CreditCard },
   { name: 'Khách hàng', href: '#khachhang', current: false, icon: Users },
 ];
 
-// Component Header
-const Header: React.FC = () => {
+// Component AdminHeader
+const AdminHeader: React.FC = () => {
   const profileRef = useRef<HTMLDivElement | null>(null);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -91,4 +91,4 @@ const Header: React.FC = () => {
     </header>
   );
 };
-export default Header;
+export default AdminHeader;

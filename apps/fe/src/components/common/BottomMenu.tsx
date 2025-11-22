@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { CalendarPlus, Menu } from 'lucide-react';
-import type { NavItem } from 'components/layouts/Header';
+import type { NavItem } from 'components/layouts/AdminHeader';
 // Import NavItem type từ Header
 
 // --- Định nghĩa kiểu Props cho BottomMenu ---
@@ -18,14 +19,8 @@ const BottomMenu: React.FC<BottomMenuProps> = ({ navItems, setIsMenuOpen, isMenu
   const myBlue = 'bg-blue-600';
   const [menuItems, setMenuItems] = useState(navItems);
 
-  const handleMenuItemClick = (name: string, href: string) => (event: React.MouseEvent) => {
-    // 1. Ngăn chặn hành vi mặc định của thẻ <a> (chuyển trang)
-    event.preventDefault();
-
-    // 2. Cập nhật URL
-    window.location.hash = href;
-
-    // 3. Tạo một mảng newMenuItems dựa trên item được click
+  const handleMenuItemClick = (name: string) => {
+    // 1. Tạo một mảng newMenuItems dựa trên item được click
     const newMenuItems = menuItems.map((item) => ({
       ...item,
       // Nếu tên item trùng với item được click, set current=true, ngược lại set current=false
@@ -43,6 +38,7 @@ const BottomMenu: React.FC<BottomMenuProps> = ({ navItems, setIsMenuOpen, isMenu
           const Icon = item.icon;
           return (
             <button
+              key={item.name}
               className={`
             relative px-4 py-2 text-sm font-medium rounded-t-lg transition duration-200 
             ${
@@ -50,18 +46,17 @@ const BottomMenu: React.FC<BottomMenuProps> = ({ navItems, setIsMenuOpen, isMenu
                 ? `text-white ${myDarkBlue} shadow-inner` // Style khi được chọn
                 : 'text-blue-600 bg-white' // Style khi không được chọn
             }`}
-              onClick={handleMenuItemClick(item.name, item.href)}
+              onClick={() => handleMenuItemClick(item.name)}
             >
-              <a
-                key={item.name}
-                href={item.href}
+              <Link
+                to={item.href}
                 // Áp dụng style cho mục đang được chọn
               >
                 <div className="flex items-center">
                   <Icon className="w-5 h5 me-2"></Icon>
                   {item.name}
                 </div>
-              </a>
+              </Link>
             </button>
           );
         })}
@@ -72,12 +67,12 @@ const BottomMenu: React.FC<BottomMenuProps> = ({ navItems, setIsMenuOpen, isMenu
         className="flex items-center px-4 py-2 bg-white text-blue-600 font-bold rounded-lg shadow-md hover:bg-gray-100 transition duration-150 text-sm"
         title="Chuyển đến giao diện Lễ tân"
       >
-        <a href="/receptionist">
+        <Link to="/receptionist">
           <div className="flex items-center">
             <CalendarPlus className="w-4 h-4 mr-2" />
             <div>Lễ tân</div>
           </div>
-        </a>
+        </Link>
       </button>
 
       {/* Menu Icon cho Mobile (Ẩn trên Desktop) */}

@@ -53,4 +53,7 @@ public class UserService {
         userRepository.save(user);
         return userMapper.toUserResponse(user);
     }
+    public void deleteAll(){
+        userRepository.deleteAll();
+    }
 }
