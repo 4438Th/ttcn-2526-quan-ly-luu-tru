@@ -10,16 +10,35 @@ export interface RegisterData extends LoginData {
 }
 
 // Kiểu dữ liệu cho Phản hồi thành công từ API Auth
-export interface AuthResponse {
-  code: number;
-  message: string;
-  result: object;
+// 1. Định nghĩa kiểu dữ liệu trả về lồng nhau từ Backend
+export interface UserResponse {
+  id: string;
+  userName: string;
+  firstName: string;
+  lastName: string;
 }
+
+export interface LoginResponse {
+  userResponse: UserResponse;
+  success: boolean;
+}
+
+// 2. AuthResponse wrapper (Sử dụng T cho result để dễ tái sử dụng. Ở đây T là LoginResponse)
+export interface ApiResponse<T> {
+  code: number; // 1000 là mã thành công theo mặc định Backend của bạn
+  message: string;
+  result?: T;
+}
+// Kiểu dữ liệu thực tế cho phản hồi Đăng nhập (ApiResponse<LoginResponse>)
+type LoginResponseType = ApiResponse<LoginResponse>;
+
+// Kiểu dữ liệu cho phản hồi Đăng ký (Giả định Backend trả về UserResponse được bao bọc)
+type RegisterResponseType = ApiResponse<UserResponse>;
 // URL cơ sở cho API xác thực
 const AUTH_API_URL = 'http://localhost:8080/quanlyluutru/auth';
 
 // Hàm xử lý đăng ký (Register)
-export async function register(userData: RegisterData): Promise<AuthResponse> {
+export async function register(userData: RegisterData): Promise<RegisterResponseType> {
   const url = `${AUTH_API_URL}/register`;
 
   // Gửi yêu cầu POST đến API đăng ký
@@ -39,11 +58,12 @@ export async function register(userData: RegisterData): Promise<AuthResponse> {
   }
 
   // 2. Phân tích cú pháp JSON và trả về dữ liệu
-  const data: AuthResponse = await response.json();
+  const data: RegisterResponseType = await response.json();
   return data;
 }
+
 // Hàm xử lý đăng nhập (Login)
-export async function login(credentials: LoginData): Promise<AuthResponse> {
+export async function login(credentials: LoginData): Promise<LoginResponseType> {
   const url = `${AUTH_API_URL}/login`;
 
   // Gửi yêu cầu POST đến API đăng nhập
@@ -63,6 +83,6 @@ export async function login(credentials: LoginData): Promise<AuthResponse> {
   }
 
   // 2. Phân tích cú pháp JSON và trả về dữ liệu
-  const data: AuthResponse = await response.json();
+  const data: LoginResponseType = await response.json();
   return data;
 }
