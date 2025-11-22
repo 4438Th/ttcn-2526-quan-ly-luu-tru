@@ -6,7 +6,9 @@ import {
   register as apiRegister,
   type LoginData,
   type RegisterData,
-  type AuthResponse,
+  type ApiResponse,
+  type LoginResponse,
+  type UserResponse,
 } from '../api/auth';
 
 // --- Loading Spinner Component (Tách biệt để đảm bảo tính toàn vẹn của JSX) ---
@@ -45,7 +47,6 @@ const LoadingSpinner: React.FC = () => (
 interface User {
   id: string;
   userName: string;
-  passWord: string;
   firstName: string;
   lastName: string;
 }
@@ -53,34 +54,64 @@ interface User {
 // Kiểu dữ liệu cho trạng thái và các hành động (Actions) của Auth Context
 interface AuthContextType {
   user: User | null;
-  isLoggedIn: boolean;
-  isLoading: boolean;
+  isLoggedIn: boolean | false;
+  isLoading: boolean | false;
   error: string | null;
   logout: () => void;
   login: (credentials: LoginData) => Promise<void>;
   register: (userData: RegisterData) => Promise<void>;
+  setUser: (user: User | null) => void;
+  setIsLoggedIn: (isLoggedIn: boolean) => void;
 }
 
 // Giá trị mặc định cho Context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// --- 2. AUTH PROVIDER COMPONENT ---
+// Định nghĩa kiểu cho phản hồi Đăng nhập và Đăng ký để dễ đọc
+type LoginResponseType = ApiResponse<LoginResponse>;
+type RegisterResponseType = ApiResponse<UserResponse>;
 
+// --- 2. AUTH PROVIDER COMPONENT ---
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   // Trích xuất User từ result của AuthResponse.
-  const extractAuthData = (response: AuthResponse) => {
-    if (response.code === 0 && response.result) {
-      const newUser: User = response.result as User;
+  const extractAndSetUser = (response: LoginResponseType | RegisterResponseType) => {
+    // Luôn kiểm tra mã thành công (ví dụ: 1000)
+    if (response.code === 1000 && response.result) {
+      let newUserResponse: UserResponse | undefined;
+
+      // Xử lý logic trích xuất UserResponse dựa trên kiểu dữ liệu trả về:
+      if ('userResponse' in response.result) {
+        // Đây là LoginResponse (có userResponse lồng trong result)
+        newUserResponse = (response.result as LoginResponse).userResponse;
+      } else {
+        // Đây là RegisterResponse (result chính là UserResponse)
+        newUserResponse = response.result as UserResponse;
+      }
+
+      if (!newUserResponse) {
+        throw new Error('Lỗi: Không tìm thấy dữ liệu người dùng trong phản hồi.');
+      }
+
+      // Tạo đối tượng User từ UserResponse
+      const newUser: User = {
+        id: newUserResponse.id,
+        userName: newUserResponse.userName,
+        firstName: newUserResponse.firstName,
+        lastName: newUserResponse.lastName,
+      };
 
       setUser(newUser);
 
-      // CHỈ lưu trữ thông tin người dùng vào Local Storage
+      // Lưu trữ thông tin người dùng vào Local Storage
       localStorage.setItem('authUser', JSON.stringify(newUser));
+      setIsLoggedIn(true);
     } else {
+      // Ném lỗi nếu code không phải 1000 hoặc thiếu result
       throw new Error(response.message || 'Lỗi xử lý phản hồi từ server.');
     }
   };
@@ -90,9 +121,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const storedUser = localStorage.getItem('authUser');
 
     if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      localStorage.removeItem('authUser');
+      try {
+        const parsedUser: User = JSON.parse(storedUser);
+        // Đảm bảo dữ liệu trong localStorage hợp lệ trước khi set
+        if (parsedUser && parsedUser.id && parsedUser.userName) {
+          setUser(parsedUser);
+          setIsLoggedIn(true);
+        }
+      } catch (e) {
+        // Xóa nếu không phải JSON hợp lệ
+        localStorage.removeItem('authUser');
+        throw e;
+      }
     }
+    // Dù có dữ liệu hay không, đều kết thúc quá trình tải
     setIsLoading(false);
   }, []);
 
@@ -101,12 +143,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(true);
     setError(null);
     try {
-      const response: AuthResponse = await apiLogin(credentials);
-      extractAuthData(response);
+      // Gọi apiLogin và gán kiểu chính xác
+      const response: LoginResponseType = await apiLogin(credentials);
+      extractAndSetUser(response);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Lỗi đăng nhập không xác định.';
       setError(errorMessage);
-      throw err;
+      throw err; // Ném lỗi để component UI có thể bắt và hiển thị thông báo
     } finally {
       setIsLoading(false);
     }
@@ -117,12 +160,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoading(true);
     setError(null);
     try {
-      const response: AuthResponse = await apiRegister(userData);
-      extractAuthData(response);
+      // Gọi apiRegister và gán kiểu chính xác
+      const response: RegisterResponseType = await apiRegister(userData);
+      extractAndSetUser(response);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Lỗi đăng ký không xác định.';
       setError(errorMessage);
-      throw err;
+      throw err; // Ném lỗi để component UI có thể bắt và hiển thị thông báo
     } finally {
       setIsLoading(false);
     }
@@ -132,6 +176,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const logout = useCallback(() => {
     setUser(null);
     setError(null);
+    setIsLoggedIn(false);
     localStorage.removeItem('authUser');
   }, []);
 
@@ -139,20 +184,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const contextValue = useMemo(
     () => ({
       user,
-      isLoggedIn: !!user,
+      isLoggedIn,
       isLoading,
       error,
       login,
       register,
       logout,
+      setUser,
+      setIsLoggedIn,
     }),
-    [user, isLoading, error, login, register, logout],
+    [user, isLoggedIn, isLoading, error, login, register, logout, setUser, setIsLoggedIn],
   );
 
   return (
-    // Dòng này sử dụng AuthContext đã được định nghĩa ở trên (dòng 52)
     <AuthContext.Provider value={contextValue}>
-      {/* Hiển thị màn hình tải trong lần khởi động đầu tiên */}
       {isLoading ? <LoadingSpinner /> : children}
     </AuthContext.Provider>
   );
