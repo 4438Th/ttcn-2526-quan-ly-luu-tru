@@ -7,6 +7,7 @@ import com.dattcn2526nhom14.quanlyluutru.dto.response.LoginResponse;
 import com.dattcn2526nhom14.quanlyluutru.dto.response.RoomResponse;
 import com.dattcn2526nhom14.quanlyluutru.entity.Room;
 import com.dattcn2526nhom14.quanlyluutru.mapper.RoomMapper;
+import com.dattcn2526nhom14.quanlyluutru.mapper.UserMapper;
 import com.dattcn2526nhom14.quanlyluutru.repository.RoomRepository;
 import com.dattcn2526nhom14.quanlyluutru.repository.UserRepository;
 import lombok.AccessLevel;
@@ -23,12 +24,13 @@ import java.util.List;
 public class AuthenticationService {
     PasswordEncoder passwordEncoder;
     UserRepository userRepository;
-
+    UserMapper userMapper;
     public LoginResponse login(LoginRequest request) {
         var user = userRepository.findByUserName(request.getUserName())
                 .orElseThrow(() -> new RuntimeException("USER_DOES_NOT_EXISTED"));
         boolean success = passwordEncoder.matches(request.getPassWord(), user.getPassWord());
         return LoginResponse.builder()
+                .userResponse(userMapper.toUserResponse(user))
                 .success(success)
                 .build();
     }
