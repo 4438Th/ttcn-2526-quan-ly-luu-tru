@@ -22,7 +22,7 @@ public class UserService {
     UserMapper userMapper;
     PasswordEncoder passwordEncoder;
 
-    public UserResponse createUser(UserCreationRequest request) {
+    public UserResponse create(UserCreationRequest request) {
         if (userRepository.existsByUserName(request.getUserName()))
             throw new RuntimeException("USER_ALREADY_EXISTS");
         User user = userMapper.toUser(request);
@@ -52,5 +52,8 @@ public class UserService {
         user.setPassWord(passwordEncoder.encode(user.getPassWord()));
         userRepository.save(user);
         return userMapper.toUserResponse(user);
+    }
+    public void deleteAll(){
+        userRepository.deleteAll();
     }
 }

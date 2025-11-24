@@ -1,29 +1,54 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import RoomPage from 'RoomPage.tsx';
-import HomePage from 'HomePage.tsx';
-import './index.css';
 import App from './App.tsx';
+import './index.css';
+import { AuthProvider } from 'features/auth/hooks/useAuth.tsx';
+import HomePage from 'pages/HomePage.tsx';
+import AdminPage from 'pages/AdminPage.tsx';
+import RegisterPage from 'pages/RegisterPage.tsx';
+import LoginPage from 'pages/LoginPage.tsx';
+import ReceptionistPage from 'pages/ReceptionistPage.tsx';
+import RoomView from 'features/rooms/components/RoomView.tsx';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
-    errorElement: <div>Oops! Lỗi không tìm thấy trang</div>,
+    element: <App />, // App là Layout ngoài cùng (chứa Outlet)
+    errorElement: <div>Lỗi không tìm thấy trang</div>,
     children: [
       {
-        path: '',
+        // Route Home
+        index: true,
         element: <HomePage />,
       },
+
+      // Route Admin
       {
-        path: 'rooms',
-        element: <RoomPage />,
+        path: 'admin',
+        element: <AdminPage />,
+        children: [
+          {
+            index: true, // Index của AdminPage: /admin
+            element: <RoomView />,
+          },
+          //  Route chức năng khác
+          //  path: 'khachhang',
+          //  elememnt: <CustomerView/>
+        ],
       },
+      // Route Register
+      { path: 'register', element: <RegisterPage /> },
+      // Route Login
+      { path: 'login', element: <LoginPage /> },
+      // Route Receptionist
+      { path: 'receptionist', element: <ReceptionistPage /> },
     ],
   },
 ]);
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </StrictMode>,
 );

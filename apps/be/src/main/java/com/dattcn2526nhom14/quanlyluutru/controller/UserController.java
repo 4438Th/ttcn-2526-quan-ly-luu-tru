@@ -23,7 +23,7 @@ public class UserController {
     @PostMapping
     ApiResponse<UserResponse> createUser(@RequestBody UserCreationRequest request) {
         return ApiResponse.<UserResponse>builder()
-                .result(userService.createUser(request))
+                .result(userService.create(request))
                 .build();
     }
 
@@ -54,5 +54,11 @@ public class UserController {
         return ApiResponse.<UserResponse>builder()
                 .result(userService.update(request, user_id))
                 .build();
+    }
+    @DeleteMapping
+    ApiResponse<String> deleteAll(){
+        userService.deleteAll();
+        return ApiResponse.<String>builder()
+                .message("All user has ben deleted!").build();
     }
 }
