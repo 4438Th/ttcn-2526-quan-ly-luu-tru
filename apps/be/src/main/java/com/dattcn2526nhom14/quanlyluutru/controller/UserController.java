@@ -59,6 +59,6 @@ public class UserController {
     ApiResponse<String> deleteAll(){
         userService.deleteAll();
         return ApiResponse.<String>builder()
-                .message("All user has ben deleted!").build();
+                .message("All user have ben deleted!").build();
     }
 }

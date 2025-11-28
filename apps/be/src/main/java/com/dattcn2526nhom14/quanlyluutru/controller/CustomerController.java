@@ -1,11 +1,16 @@
 package com.dattcn2526nhom14.quanlyluutru.controller;
 
+import com.dattcn2526nhom14.quanlyluutru.dto.request.CustomerCreationRequest;
+import com.dattcn2526nhom14.quanlyluutru.dto.request.CustomerUpdateRequest;
 import com.dattcn2526nhom14.quanlyluutru.dto.request.UserCreationRequest;
 import com.dattcn2526nhom14.quanlyluutru.dto.request.UserUpdateRequest;
 import com.dattcn2526nhom14.quanlyluutru.dto.response.ApiResponse;
-import com.dattcn2526nhom14.quanlyluutru.dto.response.UserResponse;
+import com.dattcn2526nhom14.quanlyluutru.dto.response.CustomerResponse;
+import com.dattcn2526nhom14.quanlyluutru.dto.response.CustomerResponse;
+import com.dattcn2526nhom14.quanlyluutru.entity.Customer;
 import com.dattcn2526nhom14.quanlyluutru.entity.User;
-import com.dattcn2526nhom14.quanlyluutru.service.UserService;
+import com.dattcn2526nhom14.quanlyluutru.service.CustomerService;
+import com.dattcn2526nhom14.quanlyluutru.service.CustomerService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -14,51 +19,51 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/customers")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class UserController {
-    UserService userService;
+public class CustomerController {
+    CustomerService customerService;
 
     @PostMapping
-    ApiResponse<UserResponse> createUser(@RequestBody UserCreationRequest request) {
-        return ApiResponse.<UserResponse>builder()
-                .result(userService.create(request))
+    ApiResponse<CustomerResponse> createUser(@RequestBody CustomerCreationRequest request) {
+        return ApiResponse.<CustomerResponse>builder()
+                .result(customerService.create(request))
                 .build();
     }
 
     @GetMapping
-    ApiResponse<List<User>> getAll() {
-        return ApiResponse.<List<User>>builder()
-                .result(userService.getAll())
+    ApiResponse<List<Customer>> getAll() {
+        return ApiResponse.<List<Customer>>builder()
+                .result(customerService.getAll())
                 .build();
     }
 
-    @GetMapping("/{user_id}")
-    ApiResponse<UserResponse> getById(@PathVariable String user_id) {
-        return ApiResponse.<UserResponse>builder()
-                .result(userService.getById(user_id))
+    @GetMapping("/{cus_id}")
+    ApiResponse<CustomerResponse> getById(@PathVariable String cus_id) {
+        return ApiResponse.<CustomerResponse>builder()
+                .result(customerService.getById(cus_id))
                 .build();
     }
 
-    @DeleteMapping("/{user_id}")
-    ApiResponse<String> deleteById(@PathVariable String user_id) {
-        userService.deleteById(user_id);
+    @DeleteMapping("/{cus_id}")
+    ApiResponse<String> deleteById(@PathVariable String cus_id) {
+        customerService.deleteById(cus_id);
         return ApiResponse.<String>builder()
-                .message("User has been deleted!")
+                .message("Customer has been deleted!")
                 .build();
     }
 
-    @PutMapping("/{user_id}")
-    ApiResponse<UserResponse> update(@RequestBody UserUpdateRequest request, @PathVariable String user_id) {
-        return ApiResponse.<UserResponse>builder()
-                .result(userService.update(request, user_id))
+    @PutMapping("/{cus_id}")
+    ApiResponse<CustomerResponse> update(@RequestBody CustomerUpdateRequest request, @PathVariable String cus_id) {
+        return ApiResponse.<CustomerResponse>builder()
+                .result(customerService.update(request, cus_id))
                 .build();
     }
     @DeleteMapping
     ApiResponse<String> deleteAll(){
-        userService.deleteAll();
+        customerService.deleteAll();
         return ApiResponse.<String>builder()
-                .message("All user has ben deleted!").build();
+                .message("All customer have ben deleted!").build();
     }
 }

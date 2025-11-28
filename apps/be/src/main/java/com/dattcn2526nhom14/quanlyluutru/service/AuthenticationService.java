@@ -34,6 +34,4 @@ public class AuthenticationService {
                 .success(success)
                 .build();
     }
-
-
 }

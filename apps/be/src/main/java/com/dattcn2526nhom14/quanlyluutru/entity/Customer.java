@@ -14,12 +14,13 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Room {
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
-    String roomName;
-    String price;
-    int capacity;
-    String state;
+    String perId;
+    String firstName;
+    String lastName;
+    String address;
+    String phone;
 }

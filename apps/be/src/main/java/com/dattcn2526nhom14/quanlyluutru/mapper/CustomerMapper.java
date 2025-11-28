@@ -1,17 +1,17 @@
 package com.dattcn2526nhom14.quanlyluutru.mapper;
 
-import com.dattcn2526nhom14.quanlyluutru.dto.request.UserCreationRequest;
-import com.dattcn2526nhom14.quanlyluutru.dto.request.UserUpdateRequest;
-import com.dattcn2526nhom14.quanlyluutru.dto.response.UserResponse;
-import com.dattcn2526nhom14.quanlyluutru.entity.User;
+import com.dattcn2526nhom14.quanlyluutru.dto.request.CustomerCreationRequest;
+import com.dattcn2526nhom14.quanlyluutru.dto.request.CustomerUpdateRequest;
+import com.dattcn2526nhom14.quanlyluutru.dto.response.CustomerResponse;
+import com.dattcn2526nhom14.quanlyluutru.entity.Customer;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
-public interface UserMapper {
-    UserResponse toUserResponse(User user);
+public interface CustomerMapper {
+    CustomerResponse toCustomerResponse(Customer customer);
 
-    User toUser(UserCreationRequest request);
+    Customer toCustomer(CustomerCreationRequest request);
 
-    void updateUser(@MappingTarget User user, UserUpdateRequest request);
+    void updateCustomer(@MappingTarget Customer customer, CustomerUpdateRequest request);
 }

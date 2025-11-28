@@ -8,8 +8,9 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class CustomResponse {
-    String per_id;
+public class CustomerResponse {
+    String id;
+    String perId;
     String firstName;
     String lastName;
     String address;

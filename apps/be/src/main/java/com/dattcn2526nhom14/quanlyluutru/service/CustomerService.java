@@ -16,7 +16,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class CustomService {
+public class CustomerService {
     CustomerRepository customRepository;
     CustomerMapper customerMapper;
 
