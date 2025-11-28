@@ -14,9 +14,6 @@ interface BottomMenuProps {
 }
 
 const BottomMenu: React.FC<BottomMenuProps> = ({ navItems, setIsMenuOpen, isMenuOpen }) => {
-  // Màu cho item
-  const myDarkBlue = 'bg-blue-700';
-  const myBlue = 'bg-blue-600';
   const [menuItems, setMenuItems] = useState(navItems);
 
   const handleMenuItemClick = (name: string) => {
@@ -30,28 +27,26 @@ const BottomMenu: React.FC<BottomMenuProps> = ({ navItems, setIsMenuOpen, isMenu
     // 4. Cập nhật State, kích hoạt re-render
     setMenuItems(newMenuItems);
   };
+
   return (
-    <div className={`flex items-center justify-between h-14 px-4 ${myBlue} text-white`}>
+    <div className={`flex items-center justify-between h-14 px-4 bg-blue-400`}>
       {/* Menu chính (Desktop) */}
       <nav className="hidden md:flex space-x-1">
-        {navItems.map((item) => {
+        {menuItems.map((item) => {
           const Icon = item.icon;
           return (
             <button
               key={item.name}
               className={`
-            relative px-4 py-2 text-sm font-medium rounded-t-lg transition duration-200 
+            relative px-4 py-2 text-sm font-medium rounded-lg transition duration-200 
             ${
               item.current
-                ? `text-white ${myDarkBlue} shadow-inner` // Style khi được chọn
-                : 'text-blue-600 bg-white' // Style khi không được chọn
+                ? 'bg-blue-700 shadow-inner text-white' // Style khi được chọn
+                : ' bg-white text-blue-600' // Style khi không được chọn
             }`}
               onClick={() => handleMenuItemClick(item.name)}
             >
-              <Link
-                to={item.href}
-                // Áp dụng style cho mục đang được chọn
-              >
+              <Link to={item.href}>
                 <div className="flex items-center">
                   <Icon className="w-5 h5 me-2"></Icon>
                   {item.name}

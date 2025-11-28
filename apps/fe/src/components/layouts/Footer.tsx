@@ -1,10 +1,8 @@
 import { BookOpen, User } from 'lucide-react';
-const DarkBlue = 'bg-blue-700';
-const TextWhite = 'text-gray-200';
 const Footer: React.FC = () => {
   return (
     // Footer chiếm toàn bộ chiều rộng, nền xanh đậm
-    <footer className={`w-full py-6 px-8 ${DarkBlue} ${TextWhite}`}>
+    <footer className="w-full py-6 px-8 bg-blue-400 text-white">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0 text-sm">
         {/* Khu vực 1: Thông tin Đồ án & Giảng viên */}
         <div className="space-y-1">
@@ -30,7 +28,7 @@ const Footer: React.FC = () => {
       </div>
 
       {/* Copyright/Năm */}
-      <div className="border-t border-blue-600 mt-4 pt-4 text-center text-xs text-gray-400">
+      <div className="border-t border-blue-600 mt-4 pt-4 text-center text-s ">
         &copy; {new Date().getFullYear()} Quản lý lưu trú. Thực hiện bởi Huỳnh Trung Hiếu & Bùi Nhật
         Lâm.
       </div>

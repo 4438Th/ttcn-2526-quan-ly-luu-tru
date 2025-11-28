@@ -10,7 +10,7 @@ import {
   type ApiResponse,
   type LoginResponse,
   type UserResponse,
-} from '../api/auth';
+} from '../api/authAPI';
 
 // --- 1. DEFINITIONS AND TYPES ---=
 // Kiểu dữ liệu cho User đã đăng nhập
