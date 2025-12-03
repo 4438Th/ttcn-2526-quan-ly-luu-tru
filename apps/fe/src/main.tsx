@@ -10,7 +10,7 @@ import AdminPage from 'pages/AdminPage.tsx';
 import RegisterPage from 'pages/RegisterPage.tsx';
 import LoginPage from 'pages/LoginPage.tsx';
 import ReceptionistPage from 'pages/ReceptionistPage.tsx';
-import RoomView from 'features/rooms/components/RoomView.tsx';
+import { RoomView } from 'features/rooms';
 import { CustomerView } from 'features/customer';
 const router = createBrowserRouter([
   {
