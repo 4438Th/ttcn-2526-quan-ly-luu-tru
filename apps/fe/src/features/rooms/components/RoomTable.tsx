@@ -58,11 +58,11 @@ const RoomTable: React.FC<RoomTableProps> = ({
               />
               <SortableHeader
                 name="Trạng thái"
-                sortKey="status"
+                sortKey="state"
                 sortConfig={sortConfig}
                 requestSort={requestSort}
               />
-              <th className="px-4 sm:px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 sm:px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Hành Động
               </th>
             </tr>
@@ -87,16 +87,16 @@ const RoomTable: React.FC<RoomTableProps> = ({
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-sm">
                     <span
                       className={`px-3 py-1 rounded-full font-medium ${
-                        room.status.toLowerCase() === 'trống'
+                        room.state.toLowerCase() === 'trống'
                           ? 'bg-green-100 text-green-800'
                           : 'bg-red-100 text-red-800'
                       }`}
                     >
-                      {room.status}
+                      {room.state}
                     </span>
                   </td>
                   <td className="px-4 sm:px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <div className="flex justify-end space-x-2">
+                    <div className="flex justify-center space-x-2">
                       <button
                         title="Sửa thông tin"
                         className="text-yellow-600 hover:text-yellow-800 p-2 rounded-full hover:bg-yellow-100 transition"

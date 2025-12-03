@@ -3,7 +3,7 @@ export interface Room {
   roomName: string;
   price: number;
   capacity: number;
-  status: string;
+  state: string;
 }
 
 // Default room list
@@ -12,9 +12,9 @@ export const defaultListRooms: Room[] = [];
 export const defaultNewRoom: Room = {
   id: '',
   roomName: '',
-  price: 100000,
+  price: 500000,
   capacity: 1,
-  status: 'Trống',
+  state: 'Trống',
 };
 export interface ToastConfig {
   message: string;

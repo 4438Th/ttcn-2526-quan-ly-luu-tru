@@ -39,7 +39,7 @@ const RoomView: React.FC = () => {
           <div className="relative w-full sm:w-1/3">
             <input
               type="text"
-              placeholder="Tìm kiếm theo tên phòng hoặc trạng thái..."
+              placeholder="Tìm kiếm tên phòng, sức chứa, trạng thái..."
               className="pl-10 pr-4 py-2 border border-gray-300 rounded-xl w-full text-gray-700 focus:ring-blue-500 focus:border-blue-500 transition duration-150 shadow-sm"
               value={searchTerm}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
@@ -58,7 +58,7 @@ const RoomView: React.FC = () => {
             className="bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700 transition duration-150 shadow-lg flex items-center justify-center space-x-2 w-full sm:w-auto"
           >
             <Plus size={20} />
-            <span>Thêm Phòng Mới</span>
+            <span>Thêm mới</span>
           </button>
         </div>
 
@@ -81,22 +81,22 @@ const RoomView: React.FC = () => {
 
       {/* Modal Thêm Phòng */}
       <RoomFormModal
-        title="Thêm Phòng Mới"
+        title="Thêm phòng mới"
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         onSubmit={handleSubmitNewRoom}
-        submitText="Lưu Phòng"
+        submitText="Lưu phòng"
         newRoom={newRoom}
         handleInputChange={handleInputChange}
       />
 
       {/* Modal Sửa Phòng */}
       <RoomFormModal
-        title="Sửa Thông Tin Phòng"
+        title="Sửa thông tin phòng"
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         onSubmit={handleUpdateRoom}
-        submitText="Cập Nhật"
+        submitText="Cập nhật"
         newRoom={newRoom}
         handleInputChange={handleInputChange}
       />

@@ -44,7 +44,7 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({
 
         <form onSubmit={onSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Tên Phòng (*)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Tên phòng (*)</label>
             <input
               type="text"
               name="roomName"
@@ -58,7 +58,7 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Giá Phòng (*)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Giá phòng (*)</label>
               <input
                 type="number"
                 name="price"
@@ -70,7 +70,7 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Sức Chứa (*)</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Sức chứa (*)</label>
               <input
                 type="number"
                 name="capacity"
@@ -84,11 +84,11 @@ const RoomFormModal: React.FC<RoomFormModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Trạng Thái (*)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Trạng thái (*)</label>
             <input
               type="text"
-              name="status"
-              value={newRoom.status}
+              name="state"
+              value={newRoom.state}
               onChange={handleInputChange}
               required
               className="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"

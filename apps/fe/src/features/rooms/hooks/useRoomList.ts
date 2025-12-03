@@ -12,7 +12,10 @@ export const useRoomList = (
     if (searchTerm) {
       const lc = searchTerm.toLowerCase();
       list = list.filter(
-        (r) => r.roomName.toLowerCase().includes(lc) || r.status.toLowerCase().includes(lc),
+        (r) =>
+          r.roomName.toLowerCase().includes(lc) ||
+          r.state.toLowerCase().includes(lc) ||
+          r.price.toString().includes(lc),
       );
     }
 
