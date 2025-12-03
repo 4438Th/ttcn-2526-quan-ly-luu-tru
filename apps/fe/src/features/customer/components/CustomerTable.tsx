@@ -39,7 +39,7 @@ const CustomerTable: React.FC<CustomerTableProps> = ({
                 STT
               </th>
               <SortableHeader
-                name="ID Cá Nhân"
+                name="CCCD"
                 sortKey="perId"
                 sortConfig={sortConfig}
                 requestSort={requestSort}

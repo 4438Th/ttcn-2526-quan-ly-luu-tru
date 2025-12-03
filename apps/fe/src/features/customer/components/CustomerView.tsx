@@ -39,7 +39,7 @@ const CustomerView: React.FC = () => {
           <div className="relative w-full sm:w-1/3">
             <input
               type="text"
-              placeholder="Tìm kiếm theo Tên, ID cá nhân hoặc SĐT..."
+              placeholder="Nhập thông tin tìm kiếm..."
               className="pl-10 pr-4 py-2 border border-gray-300 rounded-xl w-full text-gray-700 focus:ring-blue-500 focus:border-blue-500 transition duration-150 shadow-sm"
               value={searchTerm}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
@@ -58,7 +58,7 @@ const CustomerView: React.FC = () => {
             className="bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700 transition duration-150 shadow-lg flex items-center justify-center space-x-2 w-full sm:w-auto"
           >
             <Plus size={20} />
-            <span>Thêm Khách Hàng Mới</span>
+            <span>Thêm mới</span>
           </button>
         </div>
 
@@ -81,22 +81,22 @@ const CustomerView: React.FC = () => {
 
       {/* Modal Thêm Khách Hàng */}
       <CustomerFormModal
-        title="Thêm Khách Hàng Mới"
+        title="Thêm khách hàng mới"
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
         onSubmit={handleSubmitNewCustomer}
-        submitText="Lưu Khách Hàng"
+        submitText="Lưu khách hàng"
         newCustomer={newCustomer}
         handleInputChange={handleInputChange}
       />
 
       {/* Modal Sửa Khách Hàng */}
       <CustomerFormModal
-        title="Sửa Thông Tin Khách Hàng"
+        title="Sửa thông tin khách hàng"
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
         onSubmit={handleUpdateCustomer}
-        submitText="Cập Nhật"
+        submitText="Cập nhật"
         newCustomer={newCustomer}
         handleInputChange={handleInputChange}
       />

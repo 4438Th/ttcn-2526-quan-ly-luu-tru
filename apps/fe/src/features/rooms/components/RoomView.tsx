@@ -39,7 +39,7 @@ const RoomView: React.FC = () => {
           <div className="relative w-full sm:w-1/3">
             <input
               type="text"
-              placeholder="Tìm kiếm tên phòng, sức chứa, trạng thái..."
+              placeholder="Nhập thông tin tìm kiếm..."
               className="pl-10 pr-4 py-2 border border-gray-300 rounded-xl w-full text-gray-700 focus:ring-blue-500 focus:border-blue-500 transition duration-150 shadow-sm"
               value={searchTerm}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}

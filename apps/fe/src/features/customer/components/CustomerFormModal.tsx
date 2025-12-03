@@ -48,8 +48,8 @@ const CustomerFormModal: React.FC<CustomerFormModalProps> = ({
               <label className="block text-sm font-medium text-gray-700 mb-1">Họ (*)</label>
               <input
                 type="text"
-                name="lastName"
-                value={newCustomer.lastName}
+                name="firstName"
+                value={newCustomer.firstName}
                 onChange={handleInputChange}
                 required
                 className="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
@@ -60,8 +60,8 @@ const CustomerFormModal: React.FC<CustomerFormModalProps> = ({
               <label className="block text-sm font-medium text-gray-700 mb-1">Tên (*)</label>
               <input
                 type="text"
-                name="firstName"
-                value={newCustomer.firstName}
+                name="lastName"
+                value={newCustomer.lastName}
                 onChange={handleInputChange}
                 required
                 className="w-full p-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
@@ -72,7 +72,7 @@ const CustomerFormModal: React.FC<CustomerFormModalProps> = ({
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              ID Cá Nhân (perId)
+              CCCD/CMND (perId)
             </label>
             <input
               type="text"
@@ -85,7 +85,7 @@ const CustomerFormModal: React.FC<CustomerFormModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Điện Thoại (*)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Điện thoại (*)</label>
             <input
               type="tel"
               name="phone"
@@ -98,7 +98,7 @@ const CustomerFormModal: React.FC<CustomerFormModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Địa Chỉ</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Địa chỉ</label>
             <input
               type="text"
               name="address"
