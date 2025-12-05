@@ -170,7 +170,7 @@ export const useRoom = () => {
     try {
       const fetchedRooms = await fetchRooms();
       setRooms(fetchedRooms);
-      showToast(`✅ Đã nạp dữ liệu phòng thành công!`);
+      showToast(`✅ Đã nạp dữ liệu thành công!`);
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Lỗi không xác định';
       showToast(`❌ Lỗi: ${errorMsg}`);
