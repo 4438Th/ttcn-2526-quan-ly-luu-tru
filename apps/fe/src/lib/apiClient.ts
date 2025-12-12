@@ -3,7 +3,8 @@ type RequestOptions = Omit<RequestInit, 'body'> & { body?: any };
 
 const getBaseUrl = (): string => {
   // Vite env variable (được inject vào lúc build/dev)
-  const base = (import.meta as any).env?.VITE_API_BASE_URL as string | undefined;
+  const raw = (import.meta as any).env?.VITE_API_BASE_URL as string | undefined;
+  const base = raw ? raw.trim() : undefined;
   if (base && base.length > 0) return base.replace(/\/$/, '');
   // Fallback: cùng origin
   if (typeof window !== 'undefined' && window.location) {
@@ -72,7 +73,8 @@ const request = async <T>(path: string, options: RequestOptions = {}): Promise<T
   }
 
   // 4. TRẢ VỀ DỮ LIỆU THỰC TẾ (TRƯỜNG 'result')
-  return responseData.result;
+  // Nếu result tồn tại, trả về result, nếu không thì trả về toàn bộ response
+  return (responseData.result || responseData) as T;
 };
 
 export const apiClient = {

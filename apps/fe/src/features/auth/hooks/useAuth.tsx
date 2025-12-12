@@ -1,16 +1,9 @@
 // --- IMPORT React Hooks ---
-import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
 
 // --- IMPORT API, Types ---
-import {
-  login as apiLogin,
-  register as apiRegister,
-  type LoginData,
-  type RegisterData,
-  type ApiResponse,
-  type LoginResponse,
-  type UserResponse,
-} from '../api/authAPI';
+import { type LoginData, type RegisterData, type LoginResponse, type UserResponse } from '../types';
+import { login as apiLogin, register as apiRegister } from '../api/authAPI';
 
 // --- 1. DEFINITIONS AND TYPES ---=
 // Kiểu dữ liệu cho User đã đăng nhập
@@ -24,8 +17,8 @@ interface User {
 // Kiểu dữ liệu cho trạng thái và các hành động (Actions) của Auth Context
 interface AuthContextType {
   user: User | null;
-  isLoggedIn: boolean | false;
-  isLoading: boolean | false;
+  isLoggedIn: boolean;
+  isLoading: boolean;
   error: string | null;
   logout: () => void;
   login: (credentials: LoginData) => Promise<void>;
@@ -35,8 +28,7 @@ interface AuthContextType {
 }
 
 // Kiểu dữ liệu cho phản hồi Đăng nhập và Đăng ký
-type LoginResponseType = ApiResponse<LoginResponse>;
-type RegisterResponseType = ApiResponse<UserResponse>;
+// (API Client sẽ tự động xử lý việc kiểm tra code=1000 và throw error nếu cần)
 
 // --- 2. AUTH CONTEXT OBJECT ---
 // Giá trị mặc định cho Context
@@ -75,18 +67,33 @@ const LoadingSpinner: React.FC = () => (
 // --- 4. AUTH PROVIDER COMPONENT (LOGIC CHÍNH) ---
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // --- A. STATE & HOOKS ---
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true); // Chỉ dùng cho khởi tạo ban đầu
+  const initialUser = (() => {
+    try {
+      const stored = localStorage.getItem('authUser');
+      if (!stored) return null;
+      const parsed = JSON.parse(stored) as User;
+      if (parsed && parsed.id && parsed.userName) return parsed;
+      localStorage.removeItem('authUser');
+      return null;
+    } catch {
+      localStorage.removeItem('authUser');
+      return null;
+    }
+  })();
+
+  const [user, setUser] = useState<User | null>(initialUser);
+  const [isLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(() => !!initialUser);
   // --- B. HELPER FUNCTION: Xử lý API response ---
   //
   const processUserResponse = useCallback((newUserResponse: UserResponse) => {
+    const { id, userName, firstName, lastName } = newUserResponse;
     const newUser: User = {
-      id: newUserResponse.id,
-      userName: newUserResponse.userName,
-      firstName: newUserResponse.firstName,
-      lastName: newUserResponse.lastName,
+      id,
+      userName,
+      firstName,
+      lastName,
     };
     setUser(newUser);
     localStorage.setItem('authUser', JSON.stringify(newUser));
@@ -94,34 +101,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setError(null);
   }, []);
   const processLoginResponse = useCallback(
-    (response: LoginResponseType) => {
-      if (response.code === 1000 && response.result) {
-        processUserResponse(response.result.userResponse);
-      } else {
-        throw new Error(response.message || 'Lỗi xử lý phản hồi từ server.');
+    (response: LoginResponse) => {
+      // Kiểm tra userResponse phải tồn tại
+      if (!response.userResponse) {
+        throw new Error('Phản hồi thành công (1000) nhưng thiếu userResponse.');
       }
+
+      // Nếu tất cả đều OK, tiến hành lưu trữ
+      processUserResponse(response.userResponse);
     },
     [processUserResponse],
   );
 
-  // --- C. useEffect: Khởi tạo/Kiểm tra Local Storage ---
-  useEffect(() => {
-    const storedUser = localStorage.getItem('authUser');
-
-    if (storedUser) {
-      try {
-        const parsedUser: User = JSON.parse(storedUser);
-        if (parsedUser && parsedUser.id && parsedUser.userName) {
-          setUser(parsedUser);
-          setIsLoggedIn(true);
-        }
-      } catch {
-        localStorage.removeItem('authUser');
-      }
-    }
-    // Kết thúc tải khi khởi động
-    setIsLoading(false);
-  }, []);
+  // Initialization from localStorage is handled by the lazy initializer above
 
   // --- D. ACTIONS (useCallback) ---
   // Đăng xuất
@@ -137,7 +129,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     async (credentials: LoginData) => {
       setError(null); // Reset lỗi context trước khi gọi API
       try {
-        const response: LoginResponseType = await apiLogin(credentials);
+        const response = await apiLogin(credentials);
         processLoginResponse(response);
       } catch (err) {
         let errorMessage = err instanceof Error ? err.message : 'Lỗi đăng nhập không xác định.';
@@ -154,15 +146,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const register = useCallback(async (userData: RegisterData) => {
     setError(null); // Reset lỗi context
     try {
-      const response: RegisterResponseType = await apiRegister(userData);
-      if (response.code === 1000) {
-        // TRẢ VỀ THÀNH CÔNG
-        return;
-      } else {
-        // THẤT BẠI: Ném lỗi để RegisterForm bắt
-        const apiError = response.message || 'Lỗi đăng ký từ server.';
-        throw new Error(apiError);
-      }
+      // apiRegister sẽ tự động throw error nếu code !== 1000
+      await apiRegister(userData);
+      // Nếu không throw error, thì đăng ký thành công
+      setError(null);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Lỗi đăng ký không xác định.';
       setError(errorMessage);

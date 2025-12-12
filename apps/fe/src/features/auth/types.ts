@@ -15,6 +15,7 @@ export interface RegisterData extends LoginData {
 export interface UserResponse {
   id: string;
   userName: string;
+  passWord: string;
   firstName: string;
   lastName: string;
 }
@@ -28,7 +29,7 @@ export interface LoginResponse {
 // Kiểu dữ liệu API ApiResponse (Cấu trúc của mọi phản hồi từ Backend)
 export interface ApiResponse<T> {
   code: number; // 1000 là mã thành công mặc định
-  message: string;
+  message?: string;
   result?: T;
 }
 
