@@ -2,14 +2,16 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './App.tsx';
-import './index.css';
-import { AuthProvider } from 'features/auth/hooks/useAuth.tsx';
+import './assets/css/index.css';
+import { AuthProvider } from 'providers/AuthProvider';
+import { ToastProvider } from 'lib/toast';
 import HomePage from 'pages/HomePage.tsx';
 import AdminPage from 'pages/AdminPage.tsx';
 import RegisterPage from 'pages/RegisterPage.tsx';
 import LoginPage from 'pages/LoginPage.tsx';
 import ReceptionistPage from 'pages/ReceptionistPage.tsx';
-import RoomView from 'features/rooms/components/RoomView.tsx';
+import { RoomView } from 'features/rooms';
+import { CustomerView } from 'features/customer';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -31,9 +33,10 @@ const router = createBrowserRouter([
             index: true, // Index của AdminPage: /admin
             element: <RoomView />,
           },
-          //  Route chức năng khác
-          //  path: 'khachhang',
-          //  elememnt: <CustomerView/>
+          {
+            path: 'customers',
+            element: <CustomerView />,
+          },
         ],
       },
       // Route Register
@@ -48,7 +51,9 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <ToastProvider>
+        <RouterProvider router={router} />
+      </ToastProvider>
     </AuthProvider>
   </StrictMode>,
 );

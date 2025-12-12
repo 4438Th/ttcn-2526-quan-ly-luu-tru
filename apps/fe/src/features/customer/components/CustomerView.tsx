@@ -1,35 +1,35 @@
-import { useRoom } from '../hooks/useRoom';
-import RoomTable from './RoomTable';
-import RoomFormModal from './RoomFormModal';
+import { useCustomer } from '../hooks/useCustomer';
+import CustomerTable from './CustomerTable';
+import CustomerFormModal from './CustomerFormModal';
 import DeleteConfirmationModal from './DeleteConfirmationModal';
 import { Plus, Search } from 'lucide-react';
-const RoomView: React.FC = () => {
+const CustomerView: React.FC = () => {
   const {
-    Rooms,
-    filteredAndSortedRooms,
+    customers,
+    filteredAndSortedCustomers,
     searchTerm,
     sortConfig,
     isAddModalOpen,
     isEditModalOpen,
     isDeleteModalOpen,
-    newRoom,
+    newCustomer,
 
     setSearchTerm,
     requestSort,
     handleEditClick,
     handleDeleteClick,
-    confirmDeleteRoom,
-    handleSubmitNewRoom,
-    handleUpdateRoom,
+    confirmDeleteCustomer,
+    handleSubmitNewCustomer,
+    handleUpdateCustomer,
     handleInputChange,
     handleRefreshClick,
 
     setIsAddModalOpen,
     setIsEditModalOpen,
     setIsDeleteModalOpen,
-    setNewRoom,
-    defaultNewRoom,
-  } = useRoom();
+    setNewCustomer,
+    defaultNewCustomer,
+  } = useCustomer();
 
   return (
     <div className="p-4 sm:p-8 bg-gray-50 min-h-screen w-full font-inter">
@@ -52,7 +52,7 @@ const RoomView: React.FC = () => {
 
           <button
             onClick={() => {
-              setNewRoom(defaultNewRoom);
+              setNewCustomer(defaultNewCustomer);
               setIsAddModalOpen(true);
             }}
             className="bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700 transition duration-150 shadow-lg flex items-center justify-center space-x-2 w-full sm:w-auto"
@@ -62,9 +62,9 @@ const RoomView: React.FC = () => {
           </button>
         </div>
 
-        {/* Bảng Danh sách Phòng */}
-        <RoomTable
-          filteredAndSortedRooms={filteredAndSortedRooms}
+        {/* Bảng Danh sách Khách hàng */}
+        <CustomerTable
+          filteredAndSortedCustomers={filteredAndSortedCustomers}
           searchTerm={searchTerm}
           sortConfig={sortConfig}
           requestSort={requestSort}
@@ -75,40 +75,40 @@ const RoomView: React.FC = () => {
 
         {/* Thống kê đơn giản */}
         <div className="mt-6 text-center text-gray-600 text-sm">
-          Hiển thị {filteredAndSortedRooms.length} trên tổng số {Rooms.length} phòng.
+          Hiển thị {filteredAndSortedCustomers.length} trên tổng số {customers.length} khách hàng.
         </div>
       </div>
 
-      {/* Modal Thêm Phòng */}
-      <RoomFormModal
-        title="Thêm phòng mới"
+      {/* Modal Thêm Khách Hàng */}
+      <CustomerFormModal
+        title="Thêm khách hàng mới"
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
-        onSubmit={handleSubmitNewRoom}
-        submitText="Lưu phòng"
-        newRoom={newRoom}
+        onSubmit={handleSubmitNewCustomer}
+        submitText="Lưu khách hàng"
+        newCustomer={newCustomer}
         handleInputChange={handleInputChange}
       />
 
-      {/* Modal Sửa Phòng */}
-      <RoomFormModal
-        title="Sửa thông tin phòng"
+      {/* Modal Sửa Khách Hàng */}
+      <CustomerFormModal
+        title="Sửa thông tin khách hàng"
         isOpen={isEditModalOpen}
         onClose={() => setIsEditModalOpen(false)}
-        onSubmit={handleUpdateRoom}
+        onSubmit={handleUpdateCustomer}
         submitText="Cập nhật"
-        newRoom={newRoom}
+        newCustomer={newCustomer}
         handleInputChange={handleInputChange}
       />
 
       {/* Modal Xác nhận Xóa */}
       <DeleteConfirmationModal
         isOpen={isDeleteModalOpen}
-        rooms={Rooms}
-        confirmDelete={confirmDeleteRoom}
+        customers={customers}
+        confirmDelete={confirmDeleteCustomer}
         onClose={() => setIsDeleteModalOpen(null)}
       />
     </div>
   );
 };
-export default RoomView;
+export default CustomerView;

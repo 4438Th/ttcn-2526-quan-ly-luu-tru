@@ -17,7 +17,7 @@ const navItems: NavItem[] = [
   { name: 'Phòng', href: '', current: true, icon: House },
   { name: 'Lưu trú', href: '#luutru', current: false, icon: CalendarDays },
   { name: 'Hóa đơn', href: '#hoadon', current: false, icon: CreditCard },
-  { name: 'Khách hàng', href: '#khachhang', current: false, icon: Users },
+  { name: 'Khách hàng', href: 'customers', current: false, icon: Users },
 ];
 
 // Component AdminHeader
